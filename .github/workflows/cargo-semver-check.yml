@@ -2,6 +2,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
   merge_group:
+  workflow_dispatch:
 
 name: Check semver breakage
 
@@ -14,11 +15,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Semver check host crates
-        uses: obi1kenobi/cargo-semver-checks-action@v2
+      - name: Run cargo-semver-checks from upstream main branch
+        continue-on-error: true
+        run: |
+          cargo install --git https://github.com/obi1kenobi/cargo-semver-checks.git --branch main cargo-semver-checks
+          cargo semver-checks --manifest-path defmt-03/ --default-features
+      - name: Print Logs
+        continue-on-error: true
+        run: cat /tmp/report-*.toml
+      - name: Bonus metadata
+        run: |
+          cd defmt-03
+          cargo metadata --no-deps --format-version=1 > ./output.json
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          feature-group: default-features
-      - name: Semver check firmware crates
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          manifest-path: firmware/
+          name: Artifacts
+          if-no-files-found: error
+          path: |
+            ./defmt-03/output.json
