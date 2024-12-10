@@ -2,6 +2,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
   merge_group:
+  workflow_dispatch:
 
 name: Check semver breakage
 
@@ -14,41 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Semver check defmt
-        continue-on-error: true
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          feature-group: default-features
-          manifest-path: defmt/
-      - name: Semver check defmt-json-schema
-        continue-on-error: true
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          feature-group: default-features
-          manifest-path: decoder/defmt-json-schema/
-      - name: Semver check defmt-decoder
-        continue-on-error: true
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          feature-group: default-features
-          manifest-path: decoder/
-      - name: Semver check defmt-parser
-        continue-on-error: true
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          feature-group: default-features
-          manifest-path: parser/
-      - name: Semver check defmt-03
-        continue-on-error: true
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          feature-group: default-features
-          manifest-path: defmt-03/
-      - name: Semver check firmware crates
-        continue-on-error: true
-        uses: obi1kenobi/cargo-semver-checks-action@v2
-        with:
-          manifest-path: firmware/
       - name: Bonus run with main
         continue-on-error: true
         run: |
