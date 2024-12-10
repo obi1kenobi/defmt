@@ -67,4 +67,4 @@ jobs:
           name: Artifacts
           if-no-files-found: error
           path: |
-            ./output.json
+            ./defmt-03/output.json
