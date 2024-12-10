@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Bonus run with main
+      - name: Run cargo-semver-checks from upstream main branch
         continue-on-error: true
         run: |
           cargo install --git https://github.com/obi1kenobi/cargo-semver-checks.git --branch main cargo-semver-checks
