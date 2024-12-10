@@ -52,7 +52,13 @@ jobs:
       - name: Bonus run with main
         continue-on-error: true
         run: |
-          cargo install --git https://github.com/obi1kenobi/cargo-semver-checks.git --branch main
+          cargo install --git https://github.com/obi1kenobi/cargo-semver-checks.git --branch main cargo-semver-checks
           cargo semver-checks --manifest-path defmt-03/ --default-features
       - name: Print Logs
+        continue-on-error: true
         run: cat /tmp/report-*.toml
+      - name: Bonus metadata
+        run: |
+          cd defmt-03
+          cargo metadata --no-deps --format-version=1 > ./output.json
+          cat ./output.json
