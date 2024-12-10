@@ -44,5 +44,9 @@ jobs:
         uses: obi1kenobi/cargo-semver-checks-action@v2
         with:
           manifest-path: firmware/
+      - name: Bonus run with main
+        run: |
+          cargo install --git https://github.com/obi1kenobi/cargo-semver-checks.git --branch main
+          cargo semver-checks --manifest-path defmt-03/ --default-features
       - name: Print Logs
         run: cat /tmp/report-*.toml
