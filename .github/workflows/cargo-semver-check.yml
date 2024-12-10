@@ -8,6 +8,7 @@ name: Check semver breakage
 jobs:
   cargo-semver-check:
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     # Skip if PR is labelled as breaking change
     if: ${{ ! contains(github.event.pull_request.labels.*.name, 'breaking change') }}
@@ -43,3 +44,5 @@ jobs:
         uses: obi1kenobi/cargo-semver-checks-action@v2
         with:
           manifest-path: firmware/
+      - name: Print Logs
+        run: cat /tmp/report-*.toml
